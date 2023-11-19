@@ -10,10 +10,8 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-
-      ),
+    return Container(
+      color: Colors.teal,
     );
   }
 }
