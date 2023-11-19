@@ -1,4 +1,6 @@
+import 'package:currencyconverter/pages/Profile.dart';
 import 'package:currencyconverter/pages/home.dart';
+import 'package:currencyconverter/pages/settings.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,10 +13,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      initialRoute: '/main',
       routes: {
-        '/': (context) => const Home(),
+        '/main': (context) => const Home(),
+        '/profile': (context) => const Profile(),
+        '/settings': (context) => const Settings(),
       },
     );
   }
