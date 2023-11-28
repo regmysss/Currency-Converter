@@ -17,11 +17,11 @@ class ApiClient{
       for(var rate in exchangeRateList){
         courses[rate['currency'].toString()] = rate['saleRateNB'];
       }
+
+      return courses;
     }
     else{
       throw Exception('Error to load API');
     }
-
-    return courses;
   }
 }
