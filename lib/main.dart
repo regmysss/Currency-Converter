@@ -42,8 +42,8 @@ class _MyAppState extends State<MyApp> {
           ),
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home_filled),
-              label: 'Home',
+              icon: Icon(Icons.currency_exchange),
+              label: 'Converter',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person_rounded),
