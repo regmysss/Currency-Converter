@@ -25,8 +25,7 @@ class _HomeState extends State<Home> {
 
     if (from == 'UAH') {
       result = amount / course[to]!;
-    }
-    else{
+    } else {
       result = amount * (course[fromCourse]! / course[toCourse]!);
     }
 
@@ -55,10 +54,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    var w = MediaQuery
-        .of(context)
-        .size
-        .width;
+    var w = MediaQuery.of(context).size.width;
 
     if (!isInit) {
       return const Center(
@@ -81,111 +77,25 @@ class _HomeState extends State<Home> {
                   letterSpacing: 1.5,
                 ),
               ),
-              Container(
-                width: w,
-                margin: const EdgeInsets.only(top: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'From',
-                      style: GoogleFonts.roboto(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    DropdownButtonHideUnderline(
-                      child: Container(
-                        width: w,
-                        height: 50,
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        decoration: const BoxDecoration(
-                          color: Colors.white10,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5),
-                          ),
-                        ),
-                        child: DropdownButton(
-                          style: const TextStyle(
-                            color: Colors.white60,
-                            fontSize: 16,
-                          ),
-                          value: fromCourse,
-                          alignment: Alignment.centerRight,
-                          items: course.keys.map((key) {
-                            return DropdownMenuItem(
-                              value: key,
-                              child: Center(
-                                child: Text(key),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (key) {
-                            setState(() {
-                              fromCourse = key as String;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              DropDownMenuCourses(
+                map: course,
+                current: fromCourse,
+                label: 'From',
+                onTap: (value) {
+                  setState(() {
+                    fromCourse = value as String;
+                  });
+                },
               ),
-              Container(
-                width: w,
-                margin: const EdgeInsets.only(top: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'To',
-                      style: GoogleFonts.roboto(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    DropdownButtonHideUnderline(
-                      child: Container(
-                        width: w,
-                        height: 50,
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        decoration: const BoxDecoration(
-                          color: Colors.white10,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5),
-                          ),
-                        ),
-                        child: DropdownButton(
-                          style: const TextStyle(
-                            color: Colors.white60,
-                            fontSize: 16,
-                          ),
-                          value: toCourse,
-                          alignment: Alignment.centerRight,
-                          items: course.keys.map((key) {
-                            return DropdownMenuItem(
-                              value: key,
-                              child: Center(
-                                child: Text(key),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (key) {
-                            setState(() {
-                              toCourse = key as String;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              DropDownMenuCourses(
+                map: course,
+                current: toCourse,
+                label: 'To',
+                onTap: (value) {
+                  setState(() {
+                    toCourse = value as String;
+                  });
+                },
               ),
               const SizedBox(
                 height: 20,
@@ -231,7 +141,7 @@ class _HomeState extends State<Home> {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(20),
                   onTap: () {
-                    if(_controlleNumber.text == ''){
+                    if (_controlleNumber.text == '') {
                       return;
                     }
                     setState(() {
@@ -286,6 +196,76 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class DropDownMenuCourses extends StatelessWidget {
+  final String current;
+  final Map map;
+  final String label;
+  final Function(Object? value) onTap;
+
+  const DropDownMenuCourses({
+    super.key,
+    required this.current,
+    required this.map,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    var w = MediaQuery.of(context).size.width;
+
+    return Container(
+      width: w,
+      margin: const EdgeInsets.only(top: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: GoogleFonts.roboto(
+              fontSize: 22,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          DropdownButtonHideUnderline(
+            child: Container(
+              width: w,
+              height: 50,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              decoration: const BoxDecoration(
+                color: Colors.white10,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(5),
+                ),
+              ),
+              child: DropdownButton(
+                style: const TextStyle(
+                  color: Colors.white60,
+                  fontSize: 16,
+                ),
+                value: current,
+                alignment: Alignment.centerRight,
+                items: map.keys.map((key) {
+                  return DropdownMenuItem(
+                    value: key,
+                    child: Center(
+                      child: Text(key),
+                    ),
+                  );
+                }).toList(),
+                onChanged: onTap,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
