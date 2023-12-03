@@ -1,27 +1,24 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-//https://api.privatbank.ua/p24api/exchange_rates?json&date=01.12.2022 API course
 
-class ApiClient{
+class ApiClient {
   final Uri uri = Uri.parse('https://api.privatbank.ua/p24api/exchange_rates?json&date=01.12.2022');
 
-  Future<Map<String,double>> getCourses() async{
-    Map<String,double> courses = {};
+  Future<Map<String, double>> getCourses() async {
+    final response = await http.get(uri);
 
-    var response = await http.get(uri);
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
+      final rates = data['exchangeRate'] as List<dynamic>;
 
-    if (response.statusCode == 200){
-      final data = jsonDecode(response.body);
-      List<dynamic> exchangeRateList = data['exchangeRate'];
-
-      for(var rate in exchangeRateList){
-        courses[rate['currency'].toString()] = rate['saleRateNB'];
+      Map<String, double> exchangeRates = {};
+      for (var rate in rates) {
+        exchangeRates[rate['currency']] = rate['saleRateNB'];
       }
 
-      return courses;
-    }
-    else{
-      throw Exception('Error to load API');
+      return exchangeRates;
+    } else {
+      throw Exception('Failed to load exchange rates from API');
     }
   }
 }
