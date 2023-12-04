@@ -9,5 +9,6 @@
   "result": "Result",
   "lang": "English",
   "menu_converter": "Converter",
-  "menu_settings": "Settings"
+  "menu_settings": "Settings",
+  "retry": "Retry"
 }

@@ -12,45 +12,57 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  late Map<String, double> course;
-  bool isInit = false;
-  final _controlleNumber = TextEditingController();
+  late Map<String, double> _courses;
+  bool _isInit = false;
+  String _error = 'asd';
+  final _controllerAmount = TextEditingController();
 
-  String fromCourse = 'UAH';
-  String toCourse = 'USD';
-  String conversion = '';
+  String _fromCourse = 'UAH';
+  String _toCourse = 'USD';
+  String _conversion = '';
 
-  String calculateCourse(from, to) {
+  String _calculateCourse(from, to) {
+    double? amount = double.parse(_controllerAmount.text);
     double result = 0;
-    double? amount = double.parse(_controlleNumber.text);
 
     if (from == 'UAH') {
-      result = amount / course[to]!;
+      result = amount / _courses[to]!;
     } else {
-      result = amount * (course[fromCourse]! / course[toCourse]!);
+      result = amount * (_courses[from]! / _courses[to]!);
     }
 
     return '${result.toStringAsFixed(3)} $to';
   }
 
+  void _loadCourses() async {
+    setState(() {
+      _error = '';
+      _isInit = false;
+    });
+
+    ApiClient().getCourses().then((value) {
+      _courses = value;
+      setState(() {
+        _isInit = true;
+      });
+    }).catchError((error) {
+      setState(() {
+        _error = error;
+      });
+      debugPrint(error);
+    });
+  }
+
   @override
   void dispose() {
-    _controlleNumber.dispose();
+    _controllerAmount.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-
-    ApiClient().getCourses().then((value) {
-      course = value;
-      setState(() {
-        isInit = true;
-      });
-    }).catchError((error) {
-      print(error);
-    });
+    _loadCourses();
   }
 
   @override
@@ -58,7 +70,39 @@ class _HomeState extends State<Home> {
     var w = MediaQuery.of(context).size.width;
     final appLocal = AppLocalizations.of(context)!;
 
-    if (!isInit) {
+    if (_error.isNotEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'ERROR: $_error',
+              style: GoogleFonts.roboto(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                letterSpacing: 1.5,
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _loadCourses,
+              child: Text(
+                appLocal.retry,
+                style: GoogleFonts.roboto(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  letterSpacing: 1.5,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (!_isInit) {
       return const Center(
         child: CircularProgressIndicator(),
       );
@@ -80,22 +124,22 @@ class _HomeState extends State<Home> {
                 ),
               ),
               DropDownMenuCourses(
-                map: course,
-                current: fromCourse,
+                map: _courses,
+                current: _fromCourse,
                 label: appLocal.fromCourse,
                 onTap: (value) {
                   setState(() {
-                    fromCourse = value as String;
+                    _fromCourse = value!;
                   });
                 },
               ),
               DropDownMenuCourses(
-                map: course,
-                current: toCourse,
+                map: _courses,
+                current: _toCourse,
                 label: appLocal.toCourse,
                 onTap: (value) {
                   setState(() {
-                    toCourse = value as String;
+                    _toCourse = value!;
                   });
                 },
               ),
@@ -121,7 +165,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 child: TextField(
-                  controller: _controlleNumber,
+                  controller: _controllerAmount,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     hintText: appLocal.enterSumOfMoney,
@@ -138,16 +182,16 @@ class _HomeState extends State<Home> {
                 margin: const EdgeInsets.only(top: 40),
                 decoration: BoxDecoration(
                   color: Colors.green,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: InkWell(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                   onTap: () {
-                    if (_controlleNumber.text == '') {
+                    if (_controllerAmount.text.isEmpty) {
                       return;
                     }
                     setState(() {
-                      conversion = calculateCourse(fromCourse, toCourse);
+                      _conversion = _calculateCourse(_fromCourse, _toCourse);
                     });
                   },
                   child: Center(
@@ -187,7 +231,7 @@ class _HomeState extends State<Home> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    conversion,
+                    _conversion,
                     style: GoogleFonts.roboto(
                       fontSize: 16,
                       color: Colors.white70,
@@ -205,9 +249,9 @@ class _HomeState extends State<Home> {
 
 class DropDownMenuCourses extends StatelessWidget {
   final String current;
-  final Map map;
+  final Map<String, double> map;
   final String label;
-  final Function(Object? value) onTap;
+  final Function(String? value) onTap;
 
   const DropDownMenuCourses({
     super.key,

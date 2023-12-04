@@ -9,5 +9,6 @@
   "result": "Результат",
   "lang": "Українська",
   "menu_converter": "Конвертер",
-  "menu_settings": "Налаштування"
+  "menu_settings": "Налаштування",
+  "retry": "Повторити спробу"
 }
