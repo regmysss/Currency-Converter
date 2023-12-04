@@ -14,7 +14,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   late Map<String, double> _courses;
   bool _isInit = false;
-  String _error = 'asd';
+  String _error = '';
   final _controllerAmount = TextEditingController();
 
   String _fromCourse = 'UAH';
@@ -47,9 +47,9 @@ class _HomeState extends State<Home> {
       });
     }).catchError((error) {
       setState(() {
-        _error = error;
+        _error = error.message;
       });
-      debugPrint(error);
+      debugPrint(error.message);
     });
   }
 
