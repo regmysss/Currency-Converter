@@ -5,9 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  late LocaleProvider localeProvider;
+  final prefs = await SharedPreferences.getInstance();
+  final locale = Locale(prefs.getString('lang') ?? 'en');
+  localeProvider = LocaleProvider(locale);
+
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => localeProvider,
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -26,31 +39,28 @@ class _MyAppState extends State<MyApp> {
   ];
 
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider(
-        create: (context) => LocaleProvider(),
-        builder: (context, child) {
-          final provider = Provider.of<LocaleProvider>(context);
+  Widget build(BuildContext context) {
+    final provider = Provider.of<LocaleProvider>(context);
 
-          return MaterialApp(
-            theme: ThemeData.dark(),
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            locale: provider.locale,
-            home: BottomMenu(
-              selectedIndex: _selectedIndex,
-              screens: _screens,
-              onTab: (value) {
-                setState(
-                  () {
-                    _selectedIndex = value as int;
-                  },
-                );
-              },
-            ),
+    return MaterialApp(
+      theme: ThemeData.dark(),
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: provider.locale,
+      home: BottomMenu(
+        selectedIndex: _selectedIndex,
+        screens: _screens,
+        onTab: (value) {
+          setState(
+            () {
+              _selectedIndex = value as int;
+            },
           );
         },
-      );
+      ),
+    );
+  }
 }
 
 class BottomMenu extends StatelessWidget {
