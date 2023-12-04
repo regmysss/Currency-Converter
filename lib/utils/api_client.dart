@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:CurrencyConverter/utils/app_exception.dart';
 import 'package:http/http.dart' as http;
 
 class ApiClient {
@@ -20,16 +21,16 @@ class ApiClient {
 
         return exchangeRates;
       } else if (response.statusCode == 404) {
-        throw Exception('Exchange rate data not found.');
+        throw AppException(1001, 'Exchange rate data not found.');
       } else {
-        throw Exception('Failed to load exchange rates from API');
+        throw AppException(1002, 'Failed to load exchange rates from API.');
       }
-    } on SocketException  {
-      throw Exception('No internet connection.');
+    } on SocketException catch (e) {
+      throw AppException(1003, e.message);
     } on HttpException catch (e) {
-      throw Exception('Server error: ${e.message}');
+      throw AppException(1004, e.message);
     } catch (e) {
-      throw Exception('Unexpected error: $e');
+      throw AppException(1005, 'Unexpected error: $e');
     }
   }
 }

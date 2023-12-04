@@ -10,5 +10,10 @@
   "lang": "Українська",
   "menu_converter": "Конвертер",
   "menu_settings": "Налаштування",
-  "retry": "Повторити спробу"
+  "retry": "Повторити спробу",
+  "exchangeRateDataNotFound": "Дані про обмінні курси не знайдено.",
+  "failedToLoadExchangeRates": "Не вдалося завантажити обмінні курси з API.",
+  "noInternetConnection": "Немає підключення до Інтернету.",
+  "serverError": "Помилка сервера.",
+  "unexpectedError": "Неочікувана помилка."
 }

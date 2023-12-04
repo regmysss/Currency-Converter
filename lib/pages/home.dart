@@ -1,6 +1,6 @@
+import 'package:CurrencyConverter/utils/app_exception.dart';
 import 'package:flutter/material.dart';
-import 'package:CurrencyConverter/services/api_client.dart';
-import 'package:flutter/services.dart';
+import 'package:CurrencyConverter/utils/api_client.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -46,10 +46,25 @@ class _HomeState extends State<Home> {
         _isInit = true;
       });
     }).catchError((error) {
-      setState(() {
-        _error = error.message;
-      });
-      debugPrint(error.message);
+      final appLocal = AppLocalizations.of(context)!;
+
+      if (error is AppException) {
+        setState(() {
+          _error = switch (error.code) {
+            1001 => appLocal.exchangeRateDataNotFound,
+            1002 => appLocal.failedToLoadExchangeRates,
+            1003 => appLocal.noInternetConnection,
+            1004 => appLocal.serverError,
+            _ => appLocal.unexpectedError,
+          };
+        });
+      } else {
+        setState(() {
+          _error = appLocal.unexpectedError;
+        });
+      }
+
+      debugPrint(error.toString());
     });
   }
 
@@ -76,13 +91,14 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'ERROR: $_error',
+              _error,
               style: GoogleFonts.roboto(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
                 letterSpacing: 1.5,
               ),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
             ElevatedButton(
