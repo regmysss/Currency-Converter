@@ -1,0 +1,13 @@
+{
+  "@locale": "en",
+  "currencyConverter": "Currency\nConverter",
+  "fromCourse": "From",
+  "toCourse": "To",
+  "amount": "Amount",
+  "enterSumOfMoney": "Enter your sum of money",
+  "convert": "Convert",
+  "result": "Result",
+  "lang": "English",
+  "menu_converter": "Converter",
+  "menu_settings": "Settings"
+}

@@ -1,0 +1,13 @@
+{
+  "@locale": "uk",
+  "currencyConverter": "Конвертер\nВалют",
+  "fromCourse": "Міняю",
+  "toCourse": "Отримую",
+  "amount": "Сума",
+  "enterSumOfMoney": "Введіть вашу суму грошей",
+  "convert": "Конвертувати",
+  "result": "Результат",
+  "lang": "Українська",
+  "menu_converter": "Конвертер",
+  "menu_settings": "Налаштування"
+}

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:currencyconverter/services/api_client.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -55,6 +56,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     var w = MediaQuery.of(context).size.width;
+    final appLocal = AppLocalizations.of(context)!;
 
     if (!isInit) {
       return const Center(
@@ -69,7 +71,7 @@ class _HomeState extends State<Home> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Currency\nConverter',
+                appLocal.currencyConverter,
                 style: GoogleFonts.roboto(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -80,7 +82,7 @@ class _HomeState extends State<Home> {
               DropDownMenuCourses(
                 map: course,
                 current: fromCourse,
-                label: 'From',
+                label: appLocal.fromCourse,
                 onTap: (value) {
                   setState(() {
                     fromCourse = value as String;
@@ -90,7 +92,7 @@ class _HomeState extends State<Home> {
               DropDownMenuCourses(
                 map: course,
                 current: toCourse,
-                label: 'To',
+                label: appLocal.toCourse,
                 onTap: (value) {
                   setState(() {
                     toCourse = value as String;
@@ -101,7 +103,7 @@ class _HomeState extends State<Home> {
                 height: 20,
               ),
               Text(
-                'Amount',
+                appLocal.amount,
                 style: GoogleFonts.roboto(
                   fontSize: 22,
                   fontWeight: FontWeight.w500,
@@ -121,9 +123,9 @@ class _HomeState extends State<Home> {
                 child: TextField(
                   controller: _controlleNumber,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter your sum of money',
-                    hintStyle: TextStyle(
+                  decoration: InputDecoration(
+                    hintText: appLocal.enterSumOfMoney,
+                    hintStyle: const TextStyle(
                       fontSize: 16,
                     ),
                     border: InputBorder.none,
@@ -150,7 +152,7 @@ class _HomeState extends State<Home> {
                   },
                   child: Center(
                     child: Text(
-                      'Convert',
+                      appLocal.convert,
                       style: GoogleFonts.roboto(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -163,7 +165,7 @@ class _HomeState extends State<Home> {
                 height: 20,
               ),
               Text(
-                'Conversion',
+                appLocal.result,
                 style: GoogleFonts.roboto(
                   fontSize: 22,
                   fontWeight: FontWeight.w500,
