@@ -1,0 +1,19 @@
+{
+  "@locale": "uk",
+  "currencyConverter": "Конвертер\nВалют",
+  "fromCourse": "Міняю",
+  "toCourse": "Отримую",
+  "amount": "Сума",
+  "enterSumOfMoney": "Введіть вашу суму грошей",
+  "convert": "Конвертувати",
+  "result": "Результат",
+  "lang": "Мова",
+  "menu_converter": "Конвертер",
+  "menu_settings": "Налаштування",
+  "retry": "Повторити спробу",
+  "exchangeRateDataNotFound": "Дані про обмінні курси не знайдено.",
+  "failedToLoadExchangeRates": "Не вдалося завантажити обмінні курси з API.",
+  "noInternetConnection": "Немає підключення до Інтернету.",
+  "serverError": "Помилка сервера.",
+  "unexpectedError": "Неочікувана помилка."
+}

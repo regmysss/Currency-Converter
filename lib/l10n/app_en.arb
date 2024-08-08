@@ -1,0 +1,19 @@
+{
+  "@locale": "en",
+  "currencyConverter": "Currency\nConverter",
+  "fromCourse": "From",
+  "toCourse": "To",
+  "amount": "Amount",
+  "enterSumOfMoney": "Enter your sum of money",
+  "convert": "Convert",
+  "result": "Result",
+  "lang": "Language",
+  "menu_converter": "Converter",
+  "menu_settings": "Settings",
+  "retry": "Retry",
+  "exchangeRateDataNotFound": "Exchange rate data not found.",
+  "failedToLoadExchangeRates": "Failed to load exchange rates from API.",
+  "noInternetConnection": "No internet connection.",
+  "serverError": "Server error.",
+  "unexpectedError": "Unexpected error."
+}
