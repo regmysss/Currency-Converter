@@ -20,7 +20,7 @@ App view:
 ### 1. Clone this repo:
 Navigate into your workspace directory. Run:
 ```
-git clone https://github.com/regmysss/CurrencyConverter.git
+git clone https://github.com/regmysss/Currency-Converter.git
 ```
 
 ### Install dependencies:
